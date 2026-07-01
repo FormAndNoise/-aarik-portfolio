@@ -1,0 +1,286 @@
+---
+// src/components/Hero.astro
+// Drop into an Astro page: import Hero from '../components/Hero.astro'; then <Hero />
+// Fonts (add to your layout <head>):
+//   <link rel="preconnect" href="https://fonts.googleapis.com">
+//   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+//   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+const career = [
+  { label: "Ballet",    sub: "National Ballet of Canada · 12 yrs" },
+  { label: "Jewellery", sub: "George Brown · metalsmithing" },
+  { label: "Hardware",  sub: "Custom PC / Hackintosh builds" },
+  { label: "AI",        sub: "Pipelines · LLMs · ComfyUI" },
+];
+---
+
+<section class="hero" aria-label="Introduction">
+  <!-- LEFT: reading column -->
+  <div class="hero__text">
+    <p class="hero__name">Aarik Wells</p>
+
+    <h1 class="hero__h1">
+      <span class="reveal">12 years at the National Ballet of Canada</span>
+      <span class="reveal">taught me how to build</span>
+      <span class="reveal accent">AI pipelines.</span>
+    </h1>
+
+    <p class="hero__sub">
+      I spent over a decade turning rigorous structure into something that
+      moves people. Now I do the same thing with code and AI.
+    </p>
+
+    <p class="hero__body">
+      I build AI systems that do specific things well. My flagship,
+      <strong>MiniBook Suite</strong>, is a dual-LLM pipeline I architected
+      end-to-end — it turns a single prompt into a finished, character-consistent
+      illustrated storybook, with a custom-trained Noir style and automated
+      pagination. By day I evaluate AI-generated images and LLM outputs at
+      Outlier.ai — the same precision I trained across 12 years of ballet and a
+      jewellery bench.
+    </p>
+
+    <p class="hero__tags">
+      <code>Python · ComfyUI · SDXL + IPAdapter FaceID · custom LoRA · RTX 3060 12GB</code>
+    </p>
+
+    <div class="hero__cta">
+      <a class="btn btn--primary" href="/projects/minibook">See MiniBook Suite&nbsp;→</a>
+      <a class="btn btn--secondary" href="/aarik-wells-resume.pdf">View Résumé (PDF)</a>
+    </div>
+    <p class="hero__links">
+      <a href="https://github.com/FormAndNoise">GitHub</a>
+      <span aria-hidden="true">·</span>
+      <a href="/story">Read my story</a>
+    </p>
+  </div>
+
+  <!-- RIGHT: feeling column — the Precision Line -->
+  <div class="hero__visual" aria-hidden="false">
+    <svg
+      class="precision-line"
+      viewBox="0 0 100 360"
+      preserveAspectRatio="xMidYMid meet"
+      role="img"
+      aria-label="Career timeline: Ballet, Jewellery, Hardware, AI"
+    >
+      <line class="pl-track" x1="50" y1="20" x2="50" y2="340" />
+      {career.map((_, i) => (
+        <circle class="pl-node" cx="50" cy={20 + i * (320 / 3)} r="5" style={`--i:${i}`} />
+      ))}
+    </svg>
+
+    <ul class="pl-labels">
+      {career.map((step, i) => (
+        <li class="pl-label" style={`--i:${i}`}>
+          <span class="pl-label__title">{step.label}</span>
+          <span class="pl-label__sub">{step.sub}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- status bar -->
+  <p class="hero__status">
+    <span class="status-key">CURRENTLY:</span>
+    AI Data Annotator @ Outlier.ai · Google IT Support (in progress) · Toronto / Remote
+  </p>
+</section>
+
+<style>
+  .hero {
+    --bg:     #0C0C0E;
+    --text:   #EDEDEF;
+    --accent: #D4A853;
+    --muted:  #6B7B8D;
+
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-body:    "Inter", system-ui, sans-serif;
+    --font-mono:    "JetBrains Mono", ui-monospace, monospace;
+
+    min-height: 100svh;
+    box-sizing: border-box;
+    padding: clamp(1.5rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 60fr 40fr;
+    grid-template-rows: 1fr auto;
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+  }
+
+  .hero__name {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 1.5rem;
+  }
+
+  .hero__h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2rem, 5.5vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.5rem;
+  }
+  .hero__h1 span { display: block; }
+  .hero__h1 .accent { color: var(--accent); }
+
+  .hero__sub {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    line-height: 1.4;
+    color: var(--text);
+    max-width: 38ch;
+    margin: 0 0 1.75rem;
+  }
+
+  .hero__body {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: #C7C9CE;
+    max-width: 52ch;
+    margin: 0 0 1.5rem;
+  }
+  .hero__body strong { color: var(--text); }
+
+  .hero__tags { margin: 0 0 2rem; }
+  .hero__tags code {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.25);
+    border-radius: 6px;
+    padding: 0.5rem 0.75rem;
+    display: inline-block;
+    line-height: 1.5;
+  }
+
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.85rem; margin-bottom: 1rem; }
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-decoration: none;
+    padding: 0.8rem 1.4rem;
+    border-radius: 8px;
+    transition: transform 0.15s ease, background 0.15s ease, border-color 0.15s ease;
+  }
+  .btn--primary { background: var(--accent); color: #0C0C0E; }
+  .btn--primary:hover { transform: translateY(-2px); background: #E3BC6E; }
+  .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #2A2A30;
+  }
+  .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+  .hero__links {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  .hero__links a { color: var(--muted); text-decoration: none; border-bottom: 1px solid transparent; }
+  .hero__links a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  .hero__links span { margin: 0 0.5rem; }
+
+  /* ---- Precision Line ---- */
+  .hero__visual {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+    height: 100%;
+    max-height: 420px;
+  }
+  .precision-line { width: 40px; height: 100%; overflow: visible; }
+  .pl-track {
+    stroke: #2A2A30;
+    stroke-width: 2;
+    stroke-dasharray: 320;
+    stroke-dashoffset: 320;
+    animation: draw 1.4s ease forwards 0.3s;
+  }
+  .pl-node {
+    fill: var(--bg);
+    stroke: var(--accent);
+    stroke-width: 2;
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pop 0.4s ease forwards;
+    animation-delay: calc(0.6s + var(--i) * 0.35s);
+  }
+
+  .pl-labels { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+  .pl-label {
+    opacity: 0;
+    transform: translateX(8px);
+    animation: fadeIn 0.5s ease forwards;
+    animation-delay: calc(0.7s + var(--i) * 0.35s);
+  }
+  .pl-label__title {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+  .pl-label__sub {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  /* ---- status bar ---- */
+  .hero__status {
+    grid-column: 1 / -1;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    border-top: 1px solid #1C1C20;
+    padding-top: 1rem;
+    margin: 0;
+  }
+  .status-key { color: var(--accent); letter-spacing: 0.1em; margin-right: 0.5rem; }
+
+  /* ---- headline reveal ---- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(0.4em);
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .reveal:nth-child(1) { animation-delay: 0.05s; }
+  .reveal:nth-child(2) { animation-delay: 0.20s; }
+  .reveal:nth-child(3) { animation-delay: 0.35s; }
+
+  @keyframes rise   { to { opacity: 1; transform: translateY(0); } }
+  @keyframes draw   { to { stroke-dashoffset: 0; } }
+  @keyframes pop    { to { opacity: 1; } }
+  @keyframes fadeIn { to { opacity: 1; transform: translateX(0); } }
+
+  /* ---- responsive ---- */
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-block: 3rem; }
+    .hero__visual { max-height: none; margin-top: 1rem; }
+    .precision-line { height: 280px; }
+  }
+
+  /* ---- accessibility: the engineering trust signal ---- */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal, .pl-label { opacity: 1; transform: none; animation: none; }
+    .pl-track { stroke-dashoffset: 0; animation: none; }
+    .pl-node { opacity: 1; animation: none; }
+    .btn { transition: none; }
+  }
+</style>

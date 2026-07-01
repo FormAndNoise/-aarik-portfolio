@@ -1,0 +1,132 @@
+---
+// src/components/AssemblyLine.astro
+// Renders inside the MiniBook case study page, in the "How it works" section.
+const stages = [
+  { id: "input",  kind: "in",   title: "One prompt in",        desc: "“A brave kitten in a noir city.”" },
+  { id: "author", kind: "llm",  title: "LLM · The Author",     desc: "Writes the full story." },
+  { id: "type",   kind: "py",   title: "Python · The Typesetter", desc: "Paginates · merges orphans · detects prose/poetry/chapters." },
+  { id: "art",    kind: "llm",  title: "LLM · The Art Director", desc: "Writes a tailored prompt per page." },
+  { id: "draw",   kind: "img",  title: "SDXL + IPAdapter FaceID", desc: "Consistent characters · custom Noir LoRA." },
+  { id: "bind",   kind: "out",  title: "Text overlay + PDF",   desc: "Composites and binds the finished book." },
+];
+---
+
+<div class="assembly" data-assembly>
+  <ol class="al-track">
+    {stages.map((s, i) => (
+      <li class={`al-stage al-stage--${s.kind}`} style={`--i:${i}`} data-stage>
+        <span class="al-dot" aria-hidden="true"></span>
+        <div class="al-card">
+          <span class="al-title">{s.title}</span>
+          <span class="al-desc">{s.desc}</span>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <!-- final payoff: a storybook spread that fades/scales in when the last stage lights -->
+  <figure class="al-result" data-result aria-label="Finished storybook spread">
+    <div class="al-spread">
+      <span class="al-page al-page--art"></span>
+      <span class="al-page al-page--text"></span>
+    </div>
+    <figcaption>A finished, character-consistent spread.</figcaption>
+  </figure>
+</div>
+
+<script>
+  // Light each stage as it scrolls into view; trigger the result on the last one.
+  const root = document.querySelector('[data-assembly]');
+  if (root) {
+    const stages = [...root.querySelectorAll('[data-stage]')];
+    const result = root.querySelector('[data-result]');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-lit');
+          if (e.target === stages.at(-1)) result?.classList.add('is-shown');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.6, rootMargin: '0px 0px -10% 0px' });
+    stages.forEach((s) => io.observe(s));
+  }
+</script>
+
+<style>
+  .assembly {
+    --bg: #0C0C0E; --text: #EDEDEF; --accent: #D4A853; --muted: #6B7B8D;
+    --line: #2A2A30;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    display: grid; grid-template-columns: 1fr; gap: 2.5rem;
+    color: var(--text);
+  }
+  @media (min-width: 880px) {
+    .assembly { grid-template-columns: 1.3fr 1fr; align-items: center; }
+  }
+
+  .al-track { list-style: none; margin: 0; padding: 0; position: relative; }
+  .al-track::before {
+    content: ""; position: absolute; left: 11px; top: 12px; bottom: 12px;
+    width: 2px; background: var(--line);
+  }
+  .al-stage {
+    position: relative; padding: 0 0 1.5rem 2.5rem; min-height: 48px;
+    opacity: 0.35; transform: translateX(6px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .al-stage.is-lit { opacity: 1; transform: translateX(0); }
+
+  .al-dot {
+    position: absolute; left: 4px; top: 4px; width: 16px; height: 16px;
+    border-radius: 50%; background: var(--bg);
+    border: 2px solid var(--line); transition: border-color .4s ease, box-shadow .4s ease;
+  }
+  .al-stage.is-lit .al-dot {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(212,168,83,0.12);
+  }
+  /* kind-coded accents: python vs llm vs image */
+  .al-stage--py.is-lit  .al-dot { border-color: #6FCF97; box-shadow: 0 0 0 4px rgba(111,207,151,0.12); }
+  .al-stage--img.is-lit .al-dot { border-color: #EB5757; box-shadow: 0 0 0 4px rgba(235,87,87,0.12); }
+
+  .al-title {
+    display: block; font-family: var(--font-display); font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .al-desc {
+    display: block; font-family: var(--font-mono); font-size: 0.78rem;
+    color: var(--muted); margin-top: 0.2rem; line-height: 1.5;
+  }
+
+  .al-result {
+    margin: 0; opacity: 0; transform: scale(0.96);
+    transition: opacity .7s ease .15s, transform .7s ease .15s;
+  }
+  .al-result.is-shown { opacity: 1; transform: scale(1); }
+  .al-spread {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px;
+    aspect-ratio: 3 / 2; border: 1px solid var(--line); border-radius: 10px;
+    overflow: hidden; background: #141417;
+  }
+  .al-page { display: block; }
+  .al-page--art  { background: linear-gradient(135deg,#3a2f1c,#0C0C0E 70%); }
+  .al-page--text {
+    background: #16161A;
+    background-image: repeating-linear-gradient(
+      transparent 0 10px, rgba(237,237,239,0.10) 10px 11px);
+    background-position: 14px 18px; background-repeat: no-repeat;
+    background-size: 70% 60%;
+  }
+  .al-result figcaption {
+    font-family: var(--font-mono); font-size: 0.72rem; color: var(--muted);
+    margin-top: 0.6rem; text-align: center;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .al-stage { opacity: 1; transform: none; transition: none; }
+    .al-stage .al-dot { border-color: var(--accent); }
+    .al-result { opacity: 1; transform: none; transition: none; }
+  }
+</style>

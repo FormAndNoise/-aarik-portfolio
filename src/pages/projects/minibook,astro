@@ -1,0 +1,180 @@
+---
+import Base from '../../layouts/Base.astro';
+import AssemblyLine from '../../components/AssemblyLine.astro';
+---
+
+<Base 
+  title="MiniBook Suite — Aarik Wells" 
+  description="A dual-LLM pipeline that turns a single idea into a finished, illustrated, character-consistent storybook — automatically."
+>
+  <main class="case-study">
+    <!-- Hero Strip -->
+    <section class="cs-hero">
+      <h1>MiniBook Suite</h1>
+      <p class="cs-subtitle">A dual-LLM pipeline that turns a single idea into a finished, illustrated, character-consistent storybook — automatically.</p>
+      
+      <p class="cs-tags">
+        <code>ComfyUI · SDXL · IPAdapter FaceID · LLM Orchestration · AI-Assisted Development</code>
+      </p>
+      
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/ComfyUI-MiniBook_Node" class="btn btn--primary">View on GitHub</a>
+        <a href="/samples/minibook-sample.pdf" class="btn btn--secondary">Download Sample (PDF)</a>
+      </div>
+    </section>
+
+    <!-- The Why -->
+    <section class="cs-section">
+      <p class="cs-large">Anyone can ask an AI to "draw a picture." A <em>storybook</em> is a much harder — and much more human — problem.</p>
+      
+      <p>A real picture book needs a story that holds together across pages, illustrations where the <strong>same character looks like the same character</strong> on page 1 and page 20, text laid out so a poem's stanza never gets orphaned, and an art style that feels intentional. Today that means stitching five tools together by hand over a weekend, or hiring an illustrator most people can't afford. <strong>MiniBook Suite collapses that into a single prompt</strong> — so a parent, a teacher, or an indie author can make something that used to require a studio.</p>
+    </section>
+
+    <!-- Assembly Line -->
+    <section class="cs-section">
+      <h3>How it works</h3>
+      <p>One idea goes in. Two AIs and a stack of my own Python do the rest. Scroll to watch the pipeline assemble.</p>
+      <AssemblyLine />
+    </section>
+
+    <!-- The Build -->
+    <section class="cs-section">
+      <h3>I built it wrong first. That's the most useful part.</h3>
+      
+      <p>My first attempt was a monolith called <strong>StorybookForge</strong> — one process trying to do everything at once. It was brittle and impossible to debug: a failure anywhere killed the entire generation. So I made the call to tear it down and rebuild it as a <strong>modular pipeline of custom ComfyUI nodes</strong>, where each stage does one job and hands clean output to the next.</p>
+      
+      <p>That decision is the whole project — it's why MiniBook ships and StorybookForge didn't. I work through <strong>AI-assisted development</strong>: I specify the logic and architecture, direct LLMs to implement it, then test, debug, and iterate on what comes back until it's right. The work split naturally into specialists: an <strong>Author</strong> LLM writes the story; a custom Python <strong>Typesetter</strong> I designed and directed paginates it; an <strong>Art Director</strong> LLM writes a tailored image prompt per page; <strong>SDXL + IPAdapter FaceID</strong> illustrate it with consistent characters; and a final stage binds everything into a PDF. I orchestrated the LLM work across GPT, Claude, and GLM-4.2 via OpenRouter — routing each task to the model best suited to it.</p>
+    </section>
+
+    <!-- What I'm Proudest Of -->
+    <section class="cs-section">
+      <h3>The hard part wasn't writing code. It was knowing what the code needed to do.</h3>
+      
+      <p>The AI generation makes the impressive demo. But the part I'm proudest of is the <strong>Typesetter</strong> — the logic that makes the output feel like a <em>book</em> instead of a slideshow. I specified that it should detect whether the input is prose, poetry, or a chaptered story and paginate accordingly; that it needed a <strong>forward-merging pass to absorb "orphan" pages</strong> so you never get a page with one stray word; that illustrations should place dynamically; and that it had to guard against malformed AI output and fail gracefully instead of crashing. I directed an LLM to implement each of those, then debugged the results — including a regex loop that was misnumbering chapters on empty input. <strong>The engineering judgment — knowing what to build and why — is mine. The implementation was AI-assisted. That's how I work, and it's why I can ship.</strong></p>
+    </section>
+
+    <!-- The Accident Worth Keeping -->
+    <section class="cs-section cs-callout">
+      <h4>An accident worth keeping</h4>
+      
+      <p>I never told the system to make a <em>noir</em> book. I gave the Art Director LLM an open artistic <em>framework</em> — "Line art illustration with gentle, broad sweeping ink washes" — used deliberately to steer the reader's eye toward what matters or away from what misdirects. I specified the <em>function</em>; I left the <em>look</em> open. Reading the story's theme ("a burned-out detective piecing together one last case in a rain-soaked city"), the model chose film-noir as the style that fit — and transformed my framework into "high-contrast black and white ink illustration in the style of Frank Miller's Sin City, deep noir shadows, single amber-warm light source accent." The result surprised me, and it taught me something about directing these systems: <strong>give a model a clear intent and the right freedom, and it fills the gaps with coherent, often inspired choices.</strong> Designing <em>that</em> — the framework and the freedom — is the real creative work.</p>
+    </section>
+
+    <!-- Closing -->
+    <section class="cs-section cs-center">
+      <h3>Why a dancer builds AI pipelines</h3>
+      
+      <p>I spent 12 years as a professional dancer with the National Ballet of Canada. A great performance is precise, repeated structure in service of making someone <em>feel</em> something — hundreds of variables executing flawlessly, no rollback once the curtain rises. I learned the same lesson at a jewellery bench and building Hackintoshes: <strong>understand a system deeply, then make it produce something both beautiful and reliable.</strong></p>
+      
+      <p>I don't write code from scratch — I direct it, and I know what good output looks like because I understand the system I'm building. The tools changed across my life. The craftsmanship didn't.</p>
+      
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/ComfyUI-MiniBook_Node" class="btn btn--primary">Explore the code on GitHub</a>
+        <a href="mailto:aarik_w@hotmail.com" class="btn btn--secondary">Let's talk →</a>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .case-study {
+    --bg: #0C0C0E; --text: #EDEDEF; --accent: #D4A853; --muted: #6B7B8D;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: var(--text);
+  }
+  
+  .cs-hero { text-align: center; margin-bottom: 4rem; }
+  .cs-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .cs-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cs-tags {
+    margin-bottom: 2rem;
+  }
+  .cs-tags code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.25);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .cs-section {
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+  .cs-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .cs-section h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  
+  .cs-large {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  
+  .cs-callout {
+    background: rgba(212, 168, 83, 0.05);
+    border-left: 4px solid var(--accent);
+    padding: 2rem;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .cs-center { text-align: center; }
+  
+  .cs-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #0C0C0E;
+  }
+  .btn--primary:hover { transform: translateY(-2px); }
+  .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #2A2A30;
+  }
+  .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+</style>
