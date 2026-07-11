@@ -1,0 +1,167 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base 
+  title="Keratin — Aarik Wells" 
+  description="A custom Model Context Protocol (MCP) bridge connecting Claude AI to Rhinoceros 3D for text-to-parametric design."
+>
+  <main class="case-study">
+    <!-- Hero Strip -->
+    <section class="cs-hero">
+      <h1>Keratin</h1>
+      <p class="cs-subtitle">A custom Model Context Protocol (MCP) bridge connecting Claude AI to Rhinoceros 3D for text-to-parametric design.</p>
+      
+      <p class="cs-tags">
+        <code>Python · Rhino 7 · MCP · LLM Orchestration · AI-Assisted Development</code>
+      </p>
+      
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/Keratin" class="btn btn--primary">View on GitHub</a>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="cs-section">
+      <h3>The Problem</h3>
+      <p class="cs-large">I wanted to see if an LLM could perform parametric design from a text prompt, but I couldn't get a ready-made MCP server compatible with my license of Rhino3D.</p>
+      
+      <p>Most modern AI tools are built for the latest software versions. I had a license for Rhino 7, and existing bridges simply didn't support it. I didn't want to abandon the experiment—I wanted to bridge the gap between conversational AI and complex 3D geometry manipulation.</p>
+    </section>
+
+    <!-- The Build -->
+    <section class="cs-section">
+      <h3>The Architecture & Direction</h3>
+      <p>I designed the solution by breaking down existing MCP servers built for other versions of the software. Then, I turned to Claude and asked what it would take to make something like that possible for Rhino 3D 7 instead of 8.</p>
+      
+      <p>The AI laid out the problems and provided hypothetical architectures. The final design required two components communicating over a local TCP socket:</p>
+      <ul>
+        <li>A <strong>Python 3.10+ MCP server</strong> running on the host machine to communicate with Claude.</li>
+        <li>An <strong>IronPython 2.7 listener script</strong> running directly inside Rhino 7.</li>
+      </ul>
+      
+      <p>We built them one at a time and debugged as we went until we had a product that actually accomplished something. Now, Claude can create geometry, manage layers, run boolean operations, drive Grasshopper, and execute arbitrary RhinoScript—all from a conversation.</p>
+    </section>
+
+    <!-- The Takeaway -->
+    <section class="cs-section">
+      <h3>What this proves</h3>
+      
+      <p>This project was built purely out of curiosity, but it demonstrates my core methodology: <strong>I don't need to know how to write every line of code to build a complex system.</strong> I need to understand the architecture, break down the problem, and direct an AI to implement the solution.</p>
+      <p>By specifying the logic and iterating through the bugs, I built a bridge that allows a Large Language Model to perform parametric design tasks in a legacy CAD environment. The engineering judgment is mine; the execution is AI-assisted.</p>
+    </section>
+
+    <!-- Closing -->
+    <section class="cs-section cs-center" style="margin-top: 4rem;">
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/Keratin" class="btn btn--primary">Explore the code on GitHub</a>
+        <a href="/#work" class="btn btn--secondary">← Back to Projects</a>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .case-study {
+    --bg: #0C0C0E; --text: #EDEDEF; --accent: #D4A853; --muted: #6B7B8D;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: var(--text);
+  }
+  
+  .cs-hero { text-align: center; margin-bottom: 4rem; }
+  .cs-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .cs-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cs-tags {
+    margin-bottom: 2rem;
+  }
+  .cs-tags code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.25);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .cs-section {
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+  .cs-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .cs-section h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  
+  .cs-large {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  
+  .cs-section ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .cs-section li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .cs-center { text-align: center; }
+  
+  .cs-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #0C0C0E;
+  }
+  .btn--primary:hover { transform: translateY(-2px); }
+  .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #2A2A30;
+  }
+  .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+</style>

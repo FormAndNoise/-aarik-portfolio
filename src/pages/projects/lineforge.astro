@@ -1,0 +1,168 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base 
+  title="Lineforge — Aarik Wells" 
+  description="A self-contained Windows batch image processing pipeline using a custom AI-directed Rust backend for vector tracing."
+>
+  <main class="case-study">
+    <!-- Hero Strip -->
+    <section class="cs-hero">
+      <h1>Lineforge</h1>
+      <p class="cs-subtitle">A self-contained Windows batch image processing pipeline using a custom AI-directed Rust backend for vector tracing.</p>
+      
+      <p class="cs-tags">
+        <code>Python · Rust · Image Processing · AI-Assisted Development</code>
+      </p>
+      
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/lineforge" class="btn btn--primary">View on GitHub</a>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="cs-section">
+      <h3>The Problem</h3>
+      <p class="cs-large">I was training a FLUX LoRA using web-scraped black-and-white images, but the dataset was full of noise and varying quality. I needed a way to clean 300 images fast.</p>
+      
+      <p>I realized the best way to clean up the artifacts in these images was to crank up the contrast, trace the bitmap to a vector (SVG) to eliminate the noise, and then convert it back to a raster format. But I didn't want to run a separate script for every step across hundreds of files. So, I directed an LLM to collect these scripts into one location and build a GUI where I could toggle parameters and process batches in one click. That was Lineforge version 1.</p>
+    </section>
+
+    <!-- The Build -->
+    <section class="cs-section">
+      <h3>The Architecture & Direction</h3>
+      <p>When another contributor provided a brand new UI for version 2, it prompted me to look at the backend. Version 1 worked, but it had baggage: it relied entirely on external software like ImageMagick and Inkscape to perform its duties.</p>
+      
+      <p>I decided to see if I could organize a pair of models to perform a <strong>clean-room rewrite</strong> of those components. I wanted a native engine integrated directly into Lineforge so it wouldn't need external dependencies. I decided Rust was the best language for the job.</p>
+      
+      <p>I structured Lineforge in two parts:</p>
+      <ul>
+        <li>A <strong>Python frontend</strong> using Pillow for fast, lightweight preprocessing (blurring, thresholding, contrast stretching, and square padding).</li>
+        <li>A custom <strong>Rust tracing engine (`vpipe-cli`)</strong> that does the heavy lifting of turning pixels into vector paths.</li>
+      </ul>
+      
+      <p>The key to the implementation was the prompting strategy. I prompted the models for engine parts that matched the dependencies exactly, <strong>without providing the original C++ code to the authoring model.</strong> I ensured the new engine would function identically so I could just drop it in, make a slight adjustment to the Python script to call the Rust engine instead, and let it run. It worked almost immediately, with very few roadblocks.</p>
+    </section>
+
+    <!-- The Takeaway -->
+    <section class="cs-section">
+      <h3>What this proves</h3>
+      
+      <p>Lineforge proves that <strong>AI-assisted development isn't just for scripting; it can build highly performant, multi-language architectures.</strong> By identifying the bottleneck (vector tracing) and directing an LLM to build a compiled Rust solution, I was able to ship a professional-grade utility that operates orders of magnitude faster than a pure Python script.</p>
+    </section>
+
+    <!-- Closing -->
+    <section class="cs-section cs-center" style="margin-top: 4rem;">
+      <div class="cs-cta">
+        <a href="https://github.com/FormAndNoise/lineforge" class="btn btn--primary">Explore the code on GitHub</a>
+        <a href="/#work" class="btn btn--secondary">← Back to Projects</a>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .case-study {
+    --bg: #0C0C0E; --text: #EDEDEF; --accent: #D4A853; --muted: #6B7B8D;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: var(--text);
+  }
+  
+  .cs-hero { text-align: center; margin-bottom: 4rem; }
+  .cs-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .cs-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cs-tags {
+    margin-bottom: 2rem;
+  }
+  .cs-tags code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.25);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .cs-section {
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+  .cs-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .cs-section h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  
+  .cs-large {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  
+  .cs-section ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .cs-section li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .cs-center { text-align: center; }
+  
+  .cs-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #0C0C0E;
+  }
+  .btn--primary:hover { transform: translateY(-2px); }
+  .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #2A2A30;
+  }
+  .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+</style>

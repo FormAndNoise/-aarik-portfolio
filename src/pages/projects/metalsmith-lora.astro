@@ -1,0 +1,160 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base 
+  title="Metalsmith LoRA — Aarik Wells" 
+  description="A micro-dataset FLUX LoRA trained on photos of a bespoke physical ring to rapidly prototype new jewelry designs."
+>
+  <main class="case-study">
+    <!-- Hero Strip -->
+    <section class="cs-hero">
+      <h1>Metalsmith LoRA</h1>
+      <p class="cs-subtitle">A micro-dataset FLUX LoRA trained on photos of a bespoke physical ring to rapidly prototype new jewelry designs.</p>
+      
+      <p class="cs-tags">
+        <code>FLUX · LoRA · Product Design · Dataset Curation</code>
+      </p>
+      
+      <div class="cs-cta">
+        <a href="#" class="btn btn--primary">View on Civitai</a>
+      </div>
+    </section>
+
+    <!-- The Problem -->
+    <section class="cs-section">
+      <h3>The Problem</h3>
+      <p class="cs-large">I had designed and fabricated a unique copper and silver ring. I wanted to see what other pieces of jewelry (like a bangle) would look like in this exact style—before committing the time and materials to build them.</p>
+      
+      <p>Prototyping physical jewelry is expensive and time-consuming. I realized that if I could train a model on the specific design language of my ring, I could rapidly generate and evaluate new form factors in that style. The constraint? Since it was a single physical object, I was limited to a micro-dataset of just 10 to 15 unique images.</p>
+    </section>
+
+    <!-- The Build -->
+    <section class="cs-section">
+      <h3>The Execution & Direction</h3>
+      <p>Training a model on such a small dataset requires immense precision. I had to ensure that the dataset curation and captioning were flawless so the model learned the *technique* and *style* rather than over-fitting to the specific shape of a ring.</p>
+      
+      <p>I successfully trained a FLUX LoRA that captured the bespoke copper and silver aesthetic. The model extrapolated the design language perfectly, generating high-quality renders of bangles and other jewelry pieces using the very same technique.</p>
+    </section>
+
+    <!-- The Takeaway -->
+    <section class="cs-section">
+      <h3>What this proves</h3>
+      
+      <p>This project proves that AI isn't just for generating digital art; it is a highly practical tool for <strong>industrial design and rapid prototyping</strong>. By bridging my physical craftsmanship as a metalsmith with my technical capability in model fine-tuning, I created a system that drastically reduces the iteration time for physical product design.</p>
+    </section>
+
+    <!-- Closing -->
+    <section class="cs-section cs-center" style="margin-top: 4rem;">
+      <div class="cs-cta">
+        <a href="#" class="btn btn--primary">Explore the model on Civitai</a>
+        <a href="/#work" class="btn btn--secondary">← Back to Projects</a>
+      </div>
+    </section>
+  </main>
+</Base>
+
+<style>
+  .case-study {
+    --bg: #0C0C0E; --text: #EDEDEF; --accent: #D4A853; --muted: #6B7B8D;
+    --font-display: "Space Grotesk", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, monospace;
+    
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem);
+    color: var(--text);
+  }
+  
+  .cs-hero { text-align: center; margin-bottom: 4rem; }
+  .cs-hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  .cs-subtitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .cs-tags {
+    margin-bottom: 2rem;
+  }
+  .cs-tags code {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--accent);
+    background: rgba(212, 168, 83, 0.08);
+    border: 1px solid rgba(212, 168, 83, 0.25);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+  }
+  
+  .cs-section {
+    margin-bottom: 3rem;
+    line-height: 1.7;
+  }
+  .cs-section h3 {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .cs-section h4 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    color: var(--accent);
+  }
+  
+  .cs-large {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--text);
+  }
+  
+  .cs-section ul {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  
+  .cs-section li {
+    margin-bottom: 0.5rem;
+  }
+  
+  .cs-center { text-align: center; }
+  
+  .cs-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  
+  .btn {
+    font-family: var(--font-display);
+    font-weight: 500;
+    text-decoration: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    transition: transform 0.2s ease;
+  }
+  .btn--primary {
+    background: var(--accent);
+    color: #0C0C0E;
+  }
+  .btn--primary:hover { transform: translateY(-2px); }
+  .btn--secondary {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid #2A2A30;
+  }
+  .btn--secondary:hover { border-color: var(--accent); color: var(--accent); }
+</style>
